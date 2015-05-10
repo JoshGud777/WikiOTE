@@ -1,6 +1,3 @@
-import cgi
-import cgitb
-cgitb.enable()
 from wiki import *
 
 def link_pages_():
@@ -18,12 +15,22 @@ def templates():
 
 
 def main():
-    conn, c = open_conn(DB_DIR + 'wiki.db')
+    # os.environ["REQUEST_METHOD"] = "GET"
+    # os.environ["QUERY_STRING"] = "title=HiHoHiHoItsOffToWorkWeGo"
+
+    form = get_cgi_data()
+    title = form.getfirst('title')
+    if title == None: title = 'Main'
+    print(title)
+    '''
     c.execute('SELECT data FROM pages WHERE title="main"')
-    print_header()
+
     data = c.fetchone()
     print(data[0])
     close_conn(conn)
+    '''
+
 
 if __name__ == '__main__':
     main()
+    print_header()
