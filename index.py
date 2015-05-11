@@ -21,7 +21,16 @@ def main():
     form = get_cgi_data()
     title = form.getfirst('title')
     if title == None: title = 'Main'
-    print(title)
+
+    conn, c = open_conn(DB_DIR + 'wiki.db')
+    title = (title,)
+    c.execute('SELECT data FROM pages WHERE title=?', title)
+    data = c.fetchone()
+
+    print(data[0])
+    close_conn(conn)
+
+
     '''
     c.execute('SELECT data FROM pages WHERE title="main"')
 
@@ -32,5 +41,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
     print_header()
+    main()
